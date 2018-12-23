@@ -14,5 +14,7 @@ int main()
     auto client1 = post_office->getClient("69100839677");
     client1->setFullName("Adam Nowak");
     client1->updatePriority(1);
-
+    post_office->enqueueClient(client0);
+    post_office->enqueueClient(client1);
+    post_office->gateReady(3);
 }
