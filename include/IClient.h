@@ -15,7 +15,9 @@ class IClient
         virtual void setFullName(const std::string& fullName) = 0;
         virtual int getPriority() = 0;
         virtual void updatePriority(int priority) = 0;
-
+        virtual void newPackage(const std::string& packageId) = 0;
+        virtual std::vector<std::string> awaitingPackages() = 0;
+        virtual void packagesCollected() = 0;
 
     protected:
 

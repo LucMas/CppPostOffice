@@ -2,9 +2,9 @@
 #include "PostOffice.h"
 #include "Client.h"
 #include <string>
-#include <iostream>
 #include <iterator>
 #include <map>
+#include <iostream>
 
 PostOffice::PostOffice(){}
 PostOffice::PostOffice(unsigned gate_co):gate_count(gate_co)
@@ -12,6 +12,7 @@ PostOffice::PostOffice(unsigned gate_co):gate_count(gate_co)
 for (unsigned i=0;i<gate_co;i++)
 {
     statusQ.push_back("");
+    statusQObj.push_back(nullptr);
 }
 }
 
@@ -35,7 +36,7 @@ std::shared_ptr<IClient> PostOffice::getClient(const std::string& identification
 
 void PostOffice::enqueueClient(const std::shared_ptr<IClient>& client)
 {
-        priorityQ.insert (std::pair<int,std::string>(client->getPriority(),client->getFullName()));
+        priorityQ.insert (std::pair<int,std::shared_ptr<IClient>>(client->getPriority(),client));
 }
 
 std::vector<std::string> PostOffice::getStatus()
@@ -45,9 +46,16 @@ std::vector<std::string> PostOffice::getStatus()
 
 void PostOffice::gateReady(unsigned gateIndex)
 {
-    std::multimap <int, std::string> :: iterator itr;
+    std::multimap <int, std::shared_ptr<IClient>> :: iterator itr;
     itr=priorityQ.begin();
-    statusQ[gateIndex]=itr->second;
-    std::cout << statusQ[gateIndex];
+    statusQ[gateIndex]=itr->second->getFullName();
+    statusQObj[gateIndex]=itr->second;
     priorityQ.erase(itr);
+}
+
+void PostOffice::collectPackages(unsigned gateIndex)
+{
+
+    statusQObj[gateIndex]->packagesCollected();
+
 }

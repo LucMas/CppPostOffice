@@ -4,6 +4,8 @@
 #include "IClient.h"
 #include "Client.h"
 #include <string>
+#include <cassert>
+#include <vector>
 using namespace std;
 
 int main()
@@ -17,4 +19,11 @@ int main()
     post_office->enqueueClient(client0);
     post_office->enqueueClient(client1);
     post_office->gateReady(3);
+    auto status = post_office->getStatus();
+    assert(status[3] == "Adam Nowak");
+    client1->newPackage("123145");
+    client1->newPackage("12323");
+    client1->awaitingPackages();
+    post_office->collectPackages(3);
+    client1->awaitingPackages();
 }

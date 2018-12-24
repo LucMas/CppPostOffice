@@ -8,6 +8,9 @@ class Client: public IClient
     std::string id;
     std::string fullName;
     int priority;
+    std::vector<std::string> packageQ;
+
+
     public:
 
         Client();
@@ -17,6 +20,11 @@ class Client: public IClient
         void setFullName(const std::string& fullName);
         int getPriority();
         void updatePriority(int priority);
+        void newPackage(const std::string& packageId);
+        std::vector<std::string> awaitingPackages();
+        void packagesCollected();
+
+
 
 
 
